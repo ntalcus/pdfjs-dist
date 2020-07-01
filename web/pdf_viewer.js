@@ -245,8 +245,8 @@ var _pdf_single_page_viewer = __w_pdfjs_require__(15);
 
 var _pdf_viewer = __w_pdfjs_require__(17);
 
-const pdfjsVersion = '2.6.78';
-const pdfjsBuild = '06af7bc5';
+const pdfjsVersion = '2.6.80';
+const pdfjsBuild = '8f39d6f5';
 
 /***/ }),
 /* 1 */
@@ -3240,6 +3240,39 @@ class PDFFindController {
     return true;
   }
 
+  _calculateRegexMatch(query, pageIndex, pageContent, entireWord) {
+    const matches = [];
+    let matchIdx = -1;
+    const sep = "[,. ]*";
+
+    var generateRegex = ({
+      term
+    }) => {
+      if (term[0] == "-") {
+        term = term.slice(1);
+      }
+
+      var pattern = ["\\(*", term.split("").join(sep), "\\)*"].join("");
+      const regex = RegExp(pattern);
+      regex.global = true;
+      return regex;
+    };
+
+    const queryReg = generateRegex(query);
+
+    while (true) {
+      let result = queryReg.exec(pageContent);
+
+      if (result == null) {
+        break;
+      }
+
+      matches.push(result.lastIndex);
+    }
+
+    this._pageMatches[pageIndex] = matches;
+  }
+
   _calculatePhraseMatch(query, pageIndex, pageContent, entireWord) {
     const matches = [];
     const queryLen = query.length;
@@ -3302,7 +3335,8 @@ class PDFFindController {
     const {
       caseSensitive,
       entireWord,
-      phraseSearch
+      phraseSearch,
+      regexSearch
     } = this._state;
 
     if (query.length === 0) {
@@ -3316,6 +3350,10 @@ class PDFFindController {
 
     if (phraseSearch) {
       this._calculatePhraseMatch(query, pageIndex, pageContent, entireWord);
+    } else if (regexSearch) {
+      console.log("modified regex searching...");
+
+      this._calculateRegexMatch(query, pageIndex, pageContent, entireWord);
     } else {
       this._calculateWordMatch(query, pageIndex, pageContent, entireWord);
     }

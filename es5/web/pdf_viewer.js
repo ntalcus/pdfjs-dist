@@ -245,8 +245,8 @@ var _pdf_single_page_viewer = __w_pdfjs_require__(18);
 
 var _pdf_viewer = __w_pdfjs_require__(20);
 
-var pdfjsVersion = '2.6.78';
-var pdfjsBuild = '06af7bc5';
+var pdfjsVersion = '2.6.80';
+var pdfjsBuild = '8f39d6f5';
 
 /***/ }),
 /* 1 */
@@ -4214,6 +4214,40 @@ var PDFFindController = /*#__PURE__*/function () {
       return true;
     }
   }, {
+    key: "_calculateRegexMatch",
+    value: function _calculateRegexMatch(query, pageIndex, pageContent, entireWord) {
+      var matches = [];
+      var matchIdx = -1;
+      var sep = "[,. ]*";
+
+      var generateRegex = function generateRegex(_ref3) {
+        var term = _ref3.term;
+
+        if (term[0] == "-") {
+          term = term.slice(1);
+        }
+
+        var pattern = ["\\(*", term.split("").join(sep), "\\)*"].join("");
+        var regex = RegExp(pattern);
+        regex.global = true;
+        return regex;
+      };
+
+      var queryReg = generateRegex(query);
+
+      while (true) {
+        var result = queryReg.exec(pageContent);
+
+        if (result == null) {
+          break;
+        }
+
+        matches.push(result.lastIndex);
+      }
+
+      this._pageMatches[pageIndex] = matches;
+    }
+  }, {
     key: "_calculatePhraseMatch",
     value: function _calculatePhraseMatch(query, pageIndex, pageContent, entireWord) {
       var matches = [];
@@ -4279,7 +4313,8 @@ var PDFFindController = /*#__PURE__*/function () {
       var _this$_state = this._state,
           caseSensitive = _this$_state.caseSensitive,
           entireWord = _this$_state.entireWord,
-          phraseSearch = _this$_state.phraseSearch;
+          phraseSearch = _this$_state.phraseSearch,
+          regexSearch = _this$_state.regexSearch;
 
       if (query.length === 0) {
         return;
@@ -4292,6 +4327,10 @@ var PDFFindController = /*#__PURE__*/function () {
 
       if (phraseSearch) {
         this._calculatePhraseMatch(query, pageIndex, pageContent, entireWord);
+      } else if (regexSearch) {
+        console.log("modified regex searching...");
+
+        this._calculateRegexMatch(query, pageIndex, pageContent, entireWord);
       } else {
         this._calculateWordMatch(query, pageIndex, pageContent, entireWord);
       }
