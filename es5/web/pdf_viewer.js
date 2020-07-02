@@ -4220,6 +4220,10 @@ var PDFFindController = /*#__PURE__*/function () {
       var matchIdx = -1;
       var sep = "[,. ]*";
 
+      if (query == null) {
+        return;
+      }
+
       var generateRegex = function generateRegex(_ref3) {
         var term = _ref3.term;
 
@@ -4233,6 +4237,7 @@ var PDFFindController = /*#__PURE__*/function () {
         return regex;
       };
 
+      console.log(query);
       var queryReg = generateRegex(query);
 
       while (true) {

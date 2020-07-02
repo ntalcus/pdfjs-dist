@@ -3245,6 +3245,10 @@ class PDFFindController {
     let matchIdx = -1;
     const sep = "[,. ]*";
 
+    if (query == null) {
+      return;
+    }
+
     var generateRegex = ({
       term
     }) => {
@@ -3258,6 +3262,7 @@ class PDFFindController {
       return regex;
     };
 
+    console.log(query);
     const queryReg = generateRegex(query);
 
     while (true) {
