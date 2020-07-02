@@ -4232,8 +4232,7 @@ var PDFFindController = /*#__PURE__*/function () {
         }
 
         var pattern = ["\\(*", term.split("").join(sep), "\\)*"].join("");
-        var regex = RegExp(pattern);
-        regex.global = true;
+        var regex = RegExp(pattern, "g");
         return regex;
       };
 
