@@ -4325,10 +4325,12 @@ var PDFFindController = /*#__PURE__*/function () {
         query = query.toLowerCase();
       }
 
+      console.log("regexSearch value is ".concat(regexSearch));
+
       if (phraseSearch) {
         this._calculatePhraseMatch(query, pageIndex, pageContent, entireWord);
       } else if (regexSearch) {
-        console.log("modified regex searching...");
+        console.log("modified regex searching for ".concat(query, "..."));
 
         this._calculateRegexMatch(query, pageIndex, pageContent, entireWord);
       } else {
