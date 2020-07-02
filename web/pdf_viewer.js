@@ -3263,7 +3263,9 @@ class PDFFindController {
     };
 
     console.log(query);
-    const queryReg = generateRegex(query);
+    const queryReg = generateRegex({
+      query
+    });
 
     while (true) {
       let result = queryReg.exec(pageContent);

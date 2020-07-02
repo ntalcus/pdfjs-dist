@@ -4238,7 +4238,9 @@ var PDFFindController = /*#__PURE__*/function () {
       };
 
       console.log(query);
-      var queryReg = generateRegex(query);
+      var queryReg = generateRegex({
+        query: query
+      });
 
       while (true) {
         var result = queryReg.exec(pageContent);
