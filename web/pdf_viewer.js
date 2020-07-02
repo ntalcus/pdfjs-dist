@@ -3264,7 +3264,7 @@ class PDFFindController {
 
     console.log(query);
     const queryReg = generateRegex({
-      query
+      term: query
     });
 
     while (true) {
@@ -3274,6 +3274,7 @@ class PDFFindController {
         break;
       }
 
+      console.log(result.lastIndex);
       matches.push(result.lastIndex);
     }
 

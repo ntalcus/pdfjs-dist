@@ -4239,7 +4239,7 @@ var PDFFindController = /*#__PURE__*/function () {
 
       console.log(query);
       var queryReg = generateRegex({
-        query: query
+        term: query
       });
 
       while (true) {
@@ -4249,6 +4249,7 @@ var PDFFindController = /*#__PURE__*/function () {
           break;
         }
 
+        console.log(result.lastIndex);
         matches.push(result.lastIndex);
       }
 
