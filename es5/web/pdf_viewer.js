@@ -2514,7 +2514,7 @@ var TextLayerBuilder = /*#__PURE__*/function () {
       var i = 0,
           iIndex = 0;
       var end = textContentItemsStr.length - 1;
-      var queryLen = findController.state.query.length;
+      var queryLen = findController.trueLength ? findController.trueLength : findController.state.query.length;
       var result = [];
 
       for (var m = 0, mm = matches.length; m < mm; m++) {
@@ -3984,6 +3984,8 @@ var PDFFindController = /*#__PURE__*/function () {
     this._reset();
 
     eventBus._on("findbarclose", this._onFindBarClose.bind(this));
+
+    this._trueLength = null;
   }
 
   _createClass(PDFFindController, [{
@@ -4098,6 +4100,7 @@ var PDFFindController = /*#__PURE__*/function () {
       this._pageMatches = [];
       this._pageMatchesLength = [];
       this._state = null;
+      this._trueLength = null;
       this._selected = {
         pageIdx: -1,
         matchIdx: -1
@@ -4247,7 +4250,7 @@ var PDFFindController = /*#__PURE__*/function () {
         }
 
         matches.push(result.index);
-        this._query = result[0];
+        this._trueLength = result[0].length;
       }
 
       this._pageMatches[pageIndex] = matches;
@@ -4645,6 +4648,16 @@ var PDFFindController = /*#__PURE__*/function () {
         previous: previous,
         matchesCount: this._requestMatchesCount()
       });
+    }
+  }, {
+    key: "trueLenghth",
+    get: function get() {
+      return this._trueLength;
+    }
+  }, {
+    key: "trueLength",
+    set: function set(length) {
+      this._trueLength = length;
     }
   }, {
     key: "highlightMatches",

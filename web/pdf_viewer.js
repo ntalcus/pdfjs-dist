@@ -1682,7 +1682,7 @@ class TextLayerBuilder {
     let i = 0,
         iIndex = 0;
     const end = textContentItemsStr.length - 1;
-    const queryLen = findController.state.query.length;
+    const queryLen = findController.trueLength ? findController.trueLength : findController.state.query.length;
     const result = [];
 
     for (let m = 0, mm = matches.length; m < mm; m++) {
@@ -2995,6 +2995,16 @@ class PDFFindController {
     this._reset();
 
     eventBus._on("findbarclose", this._onFindBarClose.bind(this));
+
+    this._trueLength = null;
+  }
+
+  get trueLenghth() {
+    return this._trueLength;
+  }
+
+  set trueLength(length) {
+    this._trueLength = length;
   }
 
   get highlightMatches() {
@@ -3119,6 +3129,7 @@ class PDFFindController {
     this._pageMatches = [];
     this._pageMatchesLength = [];
     this._state = null;
+    this._trueLength = null;
     this._selected = {
       pageIdx: -1,
       matchIdx: -1
@@ -3277,7 +3288,7 @@ class PDFFindController {
       }
 
       matches.push(result.index);
-      this._query = result[0];
+      this._trueLength = result[0].length;
     }
 
     this._pageMatches[pageIndex] = matches;
