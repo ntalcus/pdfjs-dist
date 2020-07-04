@@ -3272,6 +3272,7 @@ class PDFFindController {
         break;
       }
 
+      this._query = result[0];
       matches.push(result.index);
     }
 
