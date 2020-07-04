@@ -4246,8 +4246,8 @@ var PDFFindController = /*#__PURE__*/function () {
           break;
         }
 
-        this._query = result[0];
         matches.push(result.index);
+        this._query = result[0];
       }
 
       this._pageMatches[pageIndex] = matches;
@@ -4680,6 +4680,9 @@ var PDFFindController = /*#__PURE__*/function () {
       }
 
       return this._normalizedQuery;
+    },
+    set: function set(value) {
+      this._query = value;
     }
   }]);
 
