@@ -4217,8 +4217,6 @@ var PDFFindController = /*#__PURE__*/function () {
     key: "_calculateRegexMatch",
     value: function _calculateRegexMatch(query, pageIndex, pageContent, entireWord) {
       var matches = [];
-      var matchIdx = -1;
-      var sep = "[,. ]*";
 
       if (query == null) {
         return;
@@ -4226,6 +4224,7 @@ var PDFFindController = /*#__PURE__*/function () {
 
       var generateRegex = function generateRegex(_ref3) {
         var term = _ref3.term;
+        var sep = "[,. ]*";
 
         if (term[0] == "-") {
           term = term.slice(1);
@@ -4236,7 +4235,6 @@ var PDFFindController = /*#__PURE__*/function () {
         return regex;
       };
 
-      console.log(query);
       var queryReg = generateRegex({
         term: query
       });
@@ -4248,8 +4246,7 @@ var PDFFindController = /*#__PURE__*/function () {
           break;
         }
 
-        console.log(result.lastIndex);
-        matches.push(result.lastIndex);
+        matches.push(result.index);
       }
 
       this._pageMatches[pageIndex] = matches;
@@ -4332,13 +4329,9 @@ var PDFFindController = /*#__PURE__*/function () {
         query = query.toLowerCase();
       }
 
-      console.log("regexSearch value is ".concat(regexSearch));
-
       if (phraseSearch) {
         this._calculatePhraseMatch(query, pageIndex, pageContent, entireWord);
       } else if (regexSearch) {
-        console.log("modified regex searching for ".concat(query, "..."));
-
         this._calculateRegexMatch(query, pageIndex, pageContent, entireWord);
       } else {
         this._calculateWordMatch(query, pageIndex, pageContent, entireWord);

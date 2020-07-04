@@ -3242,8 +3242,6 @@ class PDFFindController {
 
   _calculateRegexMatch(query, pageIndex, pageContent, entireWord) {
     const matches = [];
-    let matchIdx = -1;
-    const sep = "[,. ]*";
 
     if (query == null) {
       return;
@@ -3252,6 +3250,8 @@ class PDFFindController {
     var generateRegex = ({
       term
     }) => {
+      const sep = "[,. ]*";
+
       if (term[0] == "-") {
         term = term.slice(1);
       }
@@ -3261,7 +3261,6 @@ class PDFFindController {
       return regex;
     };
 
-    console.log(query);
     const queryReg = generateRegex({
       term: query
     });
@@ -3273,8 +3272,7 @@ class PDFFindController {
         break;
       }
 
-      console.log(result.lastIndex);
-      matches.push(result.lastIndex);
+      matches.push(result.index);
     }
 
     this._pageMatches[pageIndex] = matches;
@@ -3355,13 +3353,9 @@ class PDFFindController {
       query = query.toLowerCase();
     }
 
-    console.log(`regexSearch value is ${regexSearch}`);
-
     if (phraseSearch) {
       this._calculatePhraseMatch(query, pageIndex, pageContent, entireWord);
     } else if (regexSearch) {
-      console.log(`modified regex searching for ${query}...`);
-
       this._calculateRegexMatch(query, pageIndex, pageContent, entireWord);
     } else {
       this._calculateWordMatch(query, pageIndex, pageContent, entireWord);
