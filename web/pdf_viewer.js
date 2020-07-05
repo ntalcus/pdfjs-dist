@@ -1684,7 +1684,7 @@ class TextLayerBuilder {
     const end = textContentItemsStr.length - 1;
     const queryLen = findController.state.query.length;
     console.error(`is regex == ${findController.state.regexSearch}`);
-    console.error(`true length == ${findController.state.trueLength}`);
+    console.error(`true length == ${findController.trueLength}`);
     const result = [];
 
     for (let m = 0, mm = matches.length; m < mm; m++) {
@@ -3290,6 +3290,7 @@ class PDFFindController {
       }
 
       matches.push(result.index);
+      console.error(result[0].length);
       this._trueLength = result[0].length;
     }
 
