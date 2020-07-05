@@ -1682,7 +1682,9 @@ class TextLayerBuilder {
     let i = 0,
         iIndex = 0;
     const end = textContentItemsStr.length - 1;
-    const queryLen = findController.trueLength ? findController.trueLength : findController.state.query.length;
+    const queryLen = findController.state.query.length;
+    console.error(`is regex == ${findController.state.regexSearch}`);
+    console.error(`true length == ${findController.state.trueLength}`);
     const result = [];
 
     for (let m = 0, mm = matches.length; m < mm; m++) {
