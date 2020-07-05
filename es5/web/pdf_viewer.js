@@ -2514,9 +2514,7 @@ var TextLayerBuilder = /*#__PURE__*/function () {
       var i = 0,
           iIndex = 0;
       var end = textContentItemsStr.length - 1;
-      var queryLen = findController.state.query.length;
-      console.error("is regex == ".concat(findController.state.regexSearch));
-      console.error("true length == ".concat(findController.trueLength));
+      var queryLen = findController.trueLength ? findController.trueLength : findController.state.query.length;
       var result = [];
 
       for (var m = 0, mm = matches.length; m < mm; m++) {
@@ -4252,7 +4250,6 @@ var PDFFindController = /*#__PURE__*/function () {
         }
 
         matches.push(result.index);
-        console.error(result[0].length);
         this._trueLength = result[0].length;
       }
 
