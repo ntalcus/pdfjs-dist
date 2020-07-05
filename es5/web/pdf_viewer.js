@@ -4653,12 +4653,10 @@ var PDFFindController = /*#__PURE__*/function () {
       });
     }
   }, {
-    key: "trueLenghth",
+    key: "trueLength",
     get: function get() {
       return this._trueLength;
-    }
-  }, {
-    key: "trueLength",
+    },
     set: function set(length) {
       this._trueLength = length;
     }

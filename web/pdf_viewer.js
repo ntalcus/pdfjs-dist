@@ -3001,7 +3001,7 @@ class PDFFindController {
     this._trueLength = null;
   }
 
-  get trueLenghth() {
+  get trueLength() {
     return this._trueLength;
   }
 
